@@ -1,11 +1,8 @@
-FROM python:3.6-slim-stretch
+FROM python:3.6-stretch
 
 # El Patio Wallee install
-RUN apt-get -y update \
-&& apt-get -y install git \
-&& git clone --branch 2.0.0.1 https://github.com/elpatiostudio/python-sdk.git \
-&& cd ./python-sdk \
-&& python ./setup.py build \
-&& python ./setup.py install \
-&& cd .. \
-&& rm -rf python-sdk
+RUN python -m venv /opt/venv
+# Make sure we use the virtualenv:
+ENV PATH="/opt/venv/bin:$PATH"
+
+RUN pip install -e git://github.com/elpatiostudio/python-sdk.git@2.0.0.2#egg=wallee
